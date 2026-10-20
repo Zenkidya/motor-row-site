@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f3ee">
+    <title>Motor Row | Find your next car</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #1e2423;
+            --muted: #747a76;
+            --paper: #f4f3ee;
+            --line: #dedfd8;
+            --accent: #d44c32;
+            --green: #2e6053;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background-color: var(--paper);
+            background-image: radial-gradient(#d9d9d1 0.65px, transparent 0.65px);
+            background-size: 13px 13px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        body::before, body::after {
+            position: fixed;
+            top: 50%;
+            z-index: 0;
+            padding-inline-start: 10px;
+            border-inline-start: 1px solid rgba(46, 96, 83, .35);
+            background: repeating-linear-gradient(to bottom, transparent 0 14px, rgba(212, 76, 50, .55) 14px 17px, transparent 17px 32px) left top / 2px 32px repeat-y;
+            color: rgba(46, 96, 83, .72);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            writing-mode: vertical-rl;
+        }
+
+        body::before { content: 'MOTOR / ROW'; left: 24px; transform: translateY(-50%) rotate(180deg); }
+        body::after { content: 'DRIVE YOUR WAY'; right: 24px; transform: translateY(-50%); }
+
+        button, input, select { font: inherit; }
+
+        .shell { position: relative; z-index: 1; width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
+
+        .topbar {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            font: 700 19px 'Space Grotesk', sans-serif;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            place-items: center;
+            color: white;
+            background: var(--accent);
+            border-radius: 50% 50% 50% 8px;
+            font-size: 17px;
+            transform: rotate(-8deg);
+        }
+
+        .top-note { color: var(--muted); font-size: 13px; }
+        .top-note strong { color: var(--green); font-weight: 700; }
+        .top-actions { display: flex; align-items: center; gap: 18px; }
+        .language-switch { display: inline-flex; padding: 3px; background: #e8e8e1; border-radius: 5px; }
+        .language-switch button { min-width: 32px; padding: 6px 7px; color: var(--muted); background: transparent; border: 0; border-radius: 3px; cursor: pointer; font-size: 10px; font-weight: 700; }
+        .language-switch button[aria-pressed="true"] { color: #fff; background: var(--ink); }
+        .language-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .game-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            color: #fff;
+            background: var(--green);
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background .2s ease, transform .2s ease;
+        }
+        .game-link:hover { background: var(--accent); transform: translateY(-1px); }
+        .game-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+        .intro {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 32px;
+            padding: 48px 0 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 640px;
+            margin: 0;
+            font: 600 clamp(34px, 5vw, 58px)/1.02 'Space Grotesk', sans-serif;
+            letter-spacing: 0;
+        }
+
+        h1 span { color: var(--accent); }
+        h1 .headline-first { color: var(--ink); }
+        .intro-copy { max-width: 260px; margin: 0 0 4px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) 190px 190px;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,.78);
+            border-radius: 8px;
+        }
+
+        .search-wrap { position: relative; }
+        .search-wrap svg { position: absolute; top: 14px; left: 14px; color: #8a908b; }
+
+        .toolbar input, .toolbar select {
+            width: 100%;
+            height: 46px;
+            padding: 0 13px;
+            color: var(--ink);
+            background: #f7f7f3;
+            border: 1px solid #e8e8e2;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .toolbar input { padding-left: 42px; }
+        .toolbar input:focus, .toolbar select:focus { border-color: var(--green); }
+        .toolbar input::placeholder { color: #929792; }
+
+        .inventory-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 27px 0 14px;
+        }
+
+        .inventory-head h2 { margin: 0; font: 600 19px 'Space Grotesk', sans-serif; }
+        .result-count { color: var(--muted); font-size: 13px; }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            padding-bottom: 52px;
+        }
+
+        .car-card {
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #e5e5df;
+            border-radius: 7px;
+            animation: arrive .45s both;
+        }
+
+        .car-image { position: relative; aspect-ratio: 1.62; overflow: hidden; background: #e5e6df; }
+        .car-image a { display: block; width: 100%; height: 100%; }
+        .car-image a:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+        .car-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+        .car-card:hover .car-image img { transform: scale(1.035); }
+
+        .condition {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 9px;
+            color: var(--green);
+            background: rgba(255,255,255,.94);
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .car-info { padding: 15px 16px 16px; }
+        .car-title-line { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+        .car-title { margin: 0; font: 600 18px/1.2 'Space Grotesk', sans-serif; }
+        .year { padding-top: 3px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+        .trim { margin: 5px 0 14px; color: var(--muted); font-size: 12px; }
+        .specs { display: flex; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid #ecece7; color: #626965; font-size: 11px; }
+        .price-row { display: flex; align-items: center; justify-content: space-between; padding-top: 13px; }
+        .price { font: 700 21px 'Space Grotesk', sans-serif; }
+        .details { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-size: 12px; font-weight: 700; text-decoration: none; }
+        .details:hover { color: var(--accent); }
+
+        .empty-state { grid-column: 1 / -1; padding: 56px 16px; color: var(--muted); text-align: center; }
+        .empty-state strong { display: block; margin-bottom: 6px; color: var(--ink); font: 600 20px 'Space Grotesk', sans-serif; }
+
+        footer { padding: 19px 0 26px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+        footer .shell { display: flex; justify-content: space-between; gap: 16px; }
+
+        @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 850px) {
+            .car-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .intro { padding-top: 40px; }
+            .intro-copy { max-width: 220px; }
+        }
+
+        @media (max-width: 1359px) {
+            body::before, body::after { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .shell { width: min(100% - 32px, 460px); }
+            .topbar { height: 64px; }
+            .top-actions { gap: 7px; }
+            .top-note { display: none; }
+            .game-link { padding: 9px 9px; font-size: 11px; }
+            .intro { display: block; padding: 35px 0 23px; }
+            h1 { font-size: 43px; }
+            .intro-copy { max-width: 330px; margin-top: 12px; font-size: 13px; }
+            .toolbar { grid-template-columns: 1fr 1fr; padding: 9px; gap: 8px; }
+            .search-wrap { grid-column: 1 / -1; }
+            .toolbar input, .toolbar select { height: 43px; font-size: 12px; }
+            .car-grid { grid-template-columns: 1fr; gap: 13px; }
+            .car-image { aspect-ratio: 1.7; }
+            .inventory-head { margin-top: 23px; }
+            footer .shell { display: block; line-height: 1.8; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="shell topbar">
+        <a class="brand" href="#top" aria-label="Motor Row home" data-i18n-aria="homeAria"><span class="brand-mark">↗</span> motor row</a>
+        <div class="top-actions">
+            <div class="top-note"><strong data-i18n="freshArrivals">Fresh arrivals</strong> · <span data-i18n="updatedToday">Updated today</span></div>
+            <a class="game-link" href="drive.html"><span aria-hidden="true">▶</span> <span data-i18n="driveGame">Drive game</span></a>
+            <div class="language-switch" role="group" aria-label="Choose language" data-i18n-aria="languageLabel">
+                <button type="button" data-language="en" aria-pressed="true">EN</button>
+                <button type="button" data-language="uk" aria-pressed="false">UA</button>
+            </div>
+        </div>
+    </header>
+
+    <main id="top" class="shell">
+        <section class="intro" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow" data-i18n="eyebrow">The good drive starts here</p>
+                <h1 id="page-title"><span class="headline-first" data-i18n="headlineFirst">Find a car.</span><br><span data-i18n="headlineSecond">Feel the road.</span></h1>
+            </div>
+            <p class="intro-copy" data-i18n="introCopy">A few very good reasons to take the long way home. Browse our latest hand-picked cars.</p>
+        </section>
+
+        <section aria-label="Car inventory" data-i18n-aria="inventoryLabel">
+            <div class="toolbar">
+                <label class="search-wrap">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4.3 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                    <input id="search" type="search" placeholder="Search make or model" aria-label="Search make or model" data-i18n-placeholder="searchPlaceholder" data-i18n-aria="searchPlaceholder">
+                </label>
+                <select id="make-filter" aria-label="Filter by make" data-i18n-aria="makeFilterLabel">
+                    <option value="all" data-i18n="allMakes">All makes</option>
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Porsche">Porsche</option>
+                    <option value="Toyota">Toyota</option>
+                </select>
+                <select id="sort-order" aria-label="Sort cars by price" data-i18n-aria="sortLabel">
+                    <option value="featured" data-i18n="sortFeatured">Sort: Featured</option>
+                    <option value="low" data-i18n="sortLow">Price: Low to high</option>
+                    <option value="high" data-i18n="sortHigh">Price: High to low</option>
+                </select>
+            </div>
+
+            <div class="inventory-head">
+                <h2 data-i18n="availableNow">Available now</h2>
+                <span id="result-count" class="result-count" aria-live="polite"></span>
+            </div>
+            <div id="car-grid" class="car-grid"></div>
+        </section>
+    </main>
+
+    <footer><div class="shell"><span data-i18n="footerTagline">Motor Row · Great cars, no guesswork.</span><span data-i18n="pricesUsd">Prices shown in USD</span></div></footer>
+
+    <script>
+        const cars = [
+            { make: 'Porsche', model: '911 Carrera', trim: 'Carrera Coupe · 3.0L', year: 2022, miles: '8,420 mi', fuel: 'Gasoline', price: 112900, condition: 'One owner', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=85', officialUrl: 'https://www.porsche.com/usa/models/911/' },
+            { make: 'BMW', model: 'M4', trim: 'Competition · 3.0L', year: 2023, miles: '6,180 mi', fuel: 'Gasoline', price: 78400, condition: 'Low miles', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=85', officialUrl: 'https://www.bmwusa.com/vehicles/m-series/m4-series/bmw-m4-coupe.html' },
+            { make: 'Audi', model: 'RS 5 Sportback', trim: ' quattro · 2.9L', year: 2022, miles: '14,260 mi', fuel: 'Gasoline', price: 68900, condition: 'Certified', image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=1000&q=85', officialUrl: 'https://www.audiusa.com/us/web/en/models.html' },
+            { make: 'Ford', model: 'Mustang GT', trim: 'Premium · 5.0L V8', year: 2021, miles: '19,800 mi', fuel: 'Gasoline', price: 42900, condition: 'Great value', image: 'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1000&q=85', officialUrl: 'https://www.ford.com/cars/mustang/' },
+            { make: 'Toyota', model: 'GR Supra', trim: '3.0 Premium · 3.0L', year: 2023, miles: '4,950 mi', fuel: 'Gasoline', price: 57900, condition: 'Like new', image: 'https://tmna.aemassets.toyota.com/is/image/toyota/toyota/jellies/relative/2026/grsupra/base.png?wid=1140&hei=600&fmt=jpg&fit=crop', officialUrl: 'https://www.toyota.com/grsupra/' },
+            { make: 'Honda', model: 'Civic Type R', trim: 'Touring · 2.0L Turbo', year: 2024, miles: '2,310 mi', fuel: 'Gasoline', price: 44900, condition: 'New arrival', image: 'https://images.unsplash.com/photo-1594070319944-7c0cbebb6f58?auto=format&fit=crop&w=1000&q=85', officialUrl: 'https://automobiles.honda.com/civic-type-r' },
+            { make: 'Porsche', model: 'Taycan 4S', trim: '4S Sedan · Electric', year: 2023, miles: '9,120 mi', fuel: 'Electric', price: 86900, condition: 'Certified', image: 'https://a.storyblok.com/f/322327/1720x1210/babe2850d4/ta24q3cix0011-taycan-4s-front.png', officialUrl: 'https://www.porsche.com/usa/models/taycan/' },
+            { make: 'BMW', model: 'M3 Competition', trim: 'Competition xDrive · 3.0L', year: 2022, miles: '17,640 mi', fuel: 'Gasoline', price: 73900, condition: 'One owner', image: 'https://bmw.scene7.com/is/image/BMW/BMW-MY25-M3-DI24_000205325-Retouched:1to1?fmt=webp&wid=1024&hei=1024', officialUrl: 'https://www.bmwusa.com/vehicles/m-series/m3-series/bmw-m3-sedan.html' },
+            { make: 'Audi', model: 'e-tron GT', trim: 'quattro · Electric', year: 2023, miles: '11,300 mi', fuel: 'Electric', price: 79900, condition: 'Low miles', image: 'https://nar-dam.audi.com/adobe/assets/urn:aaid:aem:4593ae41-7558-446d-9f6b-22c707768f3e/as/1920X1920_D2_MY25---RS-e-tron-GT-performance---Exterior---Front---Parked---6553.jpg?width=576', officialUrl: 'https://www.audiusa.com/us/web/en/models.html' },
+            { make: 'Ford', model: 'Bronco Badlands', trim: '4-Door · 2.7L EcoBoost', year: 2022, miles: '21,050 mi', fuel: 'Gasoline', price: 48900, condition: 'Great value', image: 'https://www.assets.ford.com/adobe/assets/urn:aaid:aem:ff0ca1b9-b177-47fb-87bc-a714f5fe6404/as/26_Bronco_Billboard_Desktop_J2.webp?max-quality=75&crop-names=1_16x9&width=1920', officialUrl: 'https://www.ford.com/suvs/bronco/' },
+            { make: 'Toyota', model: 'Land Cruiser', trim: '4WD · 2.4L Hybrid', year: 2024, miles: '5,780 mi', fuel: 'Hybrid', price: 67900, condition: 'Like new', image: 'https://delivery.tcom.assetscs.toyota.com/adobe/assets/urn:aaid:aem:ce969ed9-4788-44cb-b6c6-92eba1f56058/as/LND_MY24_0052_V004.png', officialUrl: 'https://www.toyota.com/landcruiser/' },
+            { make: 'Honda', model: 'Accord Touring', trim: 'Hybrid · 2.0L', year: 2023, miles: '12,400 mi', fuel: 'Hybrid', price: 35900, condition: 'New arrival', image: 'https://automobiles.honda.com/-/media/Honda-Automobiles/Vehicles/Family-Pages/Accord/Blades/03---The-Challenging-Spirit/2026-honda-accord-sport-l-hybrid-in-crystal-black-pearl-m.jpg?sc_lang=en', officialUrl: 'https://automobiles.honda.com/accord' }
+        ];
+
+        const translations = {
+            en: {
+                title: 'Motor Row | Find your next car', homeAria: 'Motor Row home', languageLabel: 'Choose language',
+                freshArrivals: 'Fresh arrivals', updatedToday: 'Updated today', driveGame: 'Drive game',
+                eyebrow: 'The good drive starts here', headlineFirst: 'Find a car.', headlineSecond: 'Feel the road.',
+                introCopy: 'A few very good reasons to take the long way home. Browse our latest hand-picked cars.',
+                inventoryLabel: 'Car inventory', searchPlaceholder: 'Search make or model', makeFilterLabel: 'Filter by make',
+                allMakes: 'All makes', sortLabel: 'Sort cars by price', sortFeatured: 'Sort: Featured',
+                sortLow: 'Price: Low to high', sortHigh: 'Price: High to low', availableNow: 'Available now',
+                footerTagline: 'Motor Row · Great cars, no guesswork.', pricesUsd: 'Prices shown in USD',
+                car: 'car', cars: 'cars', emptyTitle: 'No cars found', emptyMessage: 'Try another make or search term.',
+                gasoline: 'Gasoline', askCar: 'Ask about car', officialPage: 'View the {make} {model} on the official {make} website',
+                fuels: { Gasoline: 'Gasoline', Electric: 'Electric', Hybrid: 'Hybrid' },
+                officialTitle: 'View official {make} page', emailSubject: 'Ask about the {year} {make} {model}',
+                conditions: { 'One owner': 'One owner', 'Low miles': 'Low miles', Certified: 'Certified', 'Great value': 'Great value', 'Like new': 'Like new', 'New arrival': 'New arrival' }
+            },
+            uk: {
+                title: 'Motor Row | Знайди своє авто', homeAria: 'Motor Row: головна', languageLabel: 'Оберіть мову',
+                freshArrivals: 'Нові надходження', updatedToday: 'Оновлено сьогодні', driveGame: 'Гра за кермом',
+                eyebrow: 'Твоя дорога починається тут', headlineFirst: 'Знайди авто.', headlineSecond: 'Відчуй дорогу.',
+                introCopy: 'Є вагомі причини обрати довший маршрут. Переглянь нашу добірку автомобілів.',
+                inventoryLabel: 'Каталог автомобілів', searchPlaceholder: 'Марка або модель', makeFilterLabel: 'Фільтр за маркою',
+                allMakes: 'Усі марки', sortLabel: 'Сортування за ціною', sortFeatured: 'Сортування: рекомендовані',
+                sortLow: 'Ціна: від нижчої до вищої', sortHigh: 'Ціна: від вищої до нижчої', availableNow: 'В наявності',
+                footerTagline: 'Motor Row · Авто, які говорять самі за себе.', pricesUsd: 'Ціни в доларах США',
+                car: 'авто', cars: 'авто', emptyTitle: 'Автомобілів не знайдено', emptyMessage: 'Спробуйте іншу марку або пошуковий запит.',
+                gasoline: 'Бензин', askCar: 'Запитати про авто', officialPage: 'Переглянути {make} {model} на офіційному сайті {make}',
+                fuels: { Gasoline: 'Бензин', Electric: 'Електро', Hybrid: 'Гібрид' },
+                officialTitle: 'Офіційна сторінка {make}', emailSubject: 'Запит щодо {year} {make} {model}',
+                conditions: { 'One owner': 'Один власник', 'Low miles': 'Малий пробіг', Certified: 'Перевірене авто', 'Great value': 'Вигідна ціна', 'Like new': 'Як нове', 'New arrival': 'Нове надходження' }
+            }
+        };
+
+        const grid = document.querySelector('#car-grid');
+        const search = document.querySelector('#search');
+        const makeFilter = document.querySelector('#make-filter');
+        const sortOrder = document.querySelector('#sort-order');
+        const resultCount = document.querySelector('#result-count');
+        const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+        let currentLanguage = 'en';
+
+        try {
+            currentLanguage = localStorage.getItem('motorRowLanguage') === 'uk' ? 'uk' : 'en';
+        } catch { }
+
+        function text(key) {
+            return translations[currentLanguage][key];
+        }
+
+        function applyLanguage(language) {
+            currentLanguage = language;
+            const dictionary = translations[language];
+            document.documentElement.lang = language;
+            document.title = dictionary.title;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                element.textContent = dictionary[element.dataset.i18n];
+            });
+            document.querySelectorAll('[data-i18n-aria]').forEach(element => {
+                element.setAttribute('aria-label', dictionary[element.dataset.i18nAria]);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                element.placeholder = dictionary[element.dataset.i18nPlaceholder];
+            });
+            document.querySelectorAll('[data-language]').forEach(button => {
+                button.setAttribute('aria-pressed', String(button.dataset.language === language));
+            });
+            try { localStorage.setItem('motorRowLanguage', language); } catch { }
+            renderCars();
+        }
+
+        function renderCars() {
+            const term = search.value.trim().toLowerCase();
+            const selectedMake = makeFilter.value;
+            let visibleCars = cars.filter(car => {
+                const matchesSearch = `${car.make} ${car.model} ${car.trim}`.toLowerCase().includes(term);
+                return matchesSearch && (selectedMake === 'all' || car.make === selectedMake);
+            });
+
+            if (sortOrder.value === 'low') visibleCars.sort((a, b) => a.price - b.price);
+            if (sortOrder.value === 'high') visibleCars.sort((a, b) => b.price - a.price);
+
+            resultCount.textContent = `${visibleCars.length} ${visibleCars.length === 1 ? text('car') : text('cars')}`;
+            if (!visibleCars.length) {
+                grid.innerHTML = `<div class="empty-state"><strong>${text('emptyTitle')}</strong>${text('emptyMessage')}</div>`;
+                return;
+            }
+
+            grid.innerHTML = visibleCars.map((car, index) => `
+                <article class="car-card" style="animation-delay:${index * 45}ms">
+                    <div class="car-image">
+                        <a href="${car.officialUrl}" target="_blank" rel="noopener noreferrer" aria-label="${text('officialPage').replaceAll('{make}', car.make).replace('{model}', car.model)}" title="${text('officialTitle').replace('{make}', car.make)}">
+                            <img src="${car.image}" alt="${car.year} ${car.make} ${car.model}" loading="lazy">
+                        </a>
+                        <span class="condition">${translations[currentLanguage].conditions[car.condition]}</span>
+                    </div>
+                    <div class="car-info">
+                        <div class="car-title-line"><h3 class="car-title">${car.make} ${car.model}</h3><span class="year">${car.year}</span></div>
+                        <p class="trim">${car.trim}</p>
+                        <div class="specs"><span>${currentLanguage === 'uk' ? car.miles.replace(' mi', ' миль') : car.miles}</span><span>${translations[currentLanguage].fuels[car.fuel]}</span></div>
+                        <div class="price-row"><strong class="price">${money.format(car.price)}</strong><a class="details" href="mailto:hello@motorrow.example?subject=${encodeURIComponent(text('emailSubject').replace('{year}', car.year).replace('{make}', car.make).replace('{model}', car.model))}">${text('askCar')} <span aria-hidden="true">↗</span></a></div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        search.addEventListener('input', renderCars);
+        makeFilter.addEventListener('change', renderCars);
+        sortOrder.addEventListener('change', renderCars);
+        document.querySelectorAll('[data-language]').forEach(button => {
+            button.addEventListener('click', () => applyLanguage(button.dataset.language));
+        });
+        applyLanguage(currentLanguage);
+    </script>
+</body>
+</html>
